@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {% block title %}{% endblock title %} | News Flash</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            background-color: #263859;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #3b7ab4;
+        }
+
+        nav a.active {  /* Add the 'active' class to the current page link */
+            background-color: #3b7ab4;  /* Use the same hover color for consistency */
+            font-weight: bold;  /* Add emphasis to the current page */
+        }
+
+        .container {
+            border: 20px;
+            background-color: #000000;
+            padding: 20px 20px;
+        }
+
+        .news-article {
+            background-color: #dddddd;
+            padding: 20px;
+            padding-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .news-article h2 {
+            color: #333;
+        }
+
+        .news-article p {
+            color: #666;
+        }
+
+        .about-us {
+            background-color: #dddddd;
+            padding: 40px;
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-us h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .about-us p {
+            line-height: 1.6;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+
+        div{
+            padding:30px !important;
+        }
+
+        button {
+            background-color: #ddd;
+            color: #333;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ccc;
+        }
+
+        .trending-title {
+            color: black; 
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <p><h1 style="font-size: xx-large;color: #fff;">News Flash</h1></p>
+        <br/>
+        <a href="{% url "Home" %}" {% if request.path == '/' %} class="active" {% endif %}>Home</a>
+        <a href="{% url "top-headlines" %}" {% if request.path == '/top-headlines/' %} class='active' {% endif %}>Top headlines</a>
+        <a href="{% url "everything" %}" {% if request.path == '/everything/' %} class='active' {% endif %}>Search for Articles</a>
+        <a href="{% url "user_articles" %}" {% if request.path == '/user_articles/' %} class='active' {% endif %}>User Articles</a>
+        <a href="#about-us" {% if request.path == '/#about-us/' %} class='active' {% endif %} >About Us</a>
+        {% if request.user.is_authenticated %}
+            {% if request.user.is_staff %}
+                <a href="{% url "admin:index" %}">Administration Page</a>
+                <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button class="logout" type="submit" style="background-color: orangered; border-color: black; color: white;">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url "profile" %}" {% if request.path == '/profile/' %} class='active' {% endif %}>Profile Page</a>
+            {% endif %}
+        {% else %}
+        <a href="{% url "login" %}">Login</a>
+        {% endif %}
+        
+    </nav>
+
+    <div class="container" style="padding: 10;">
+        {% block content %}
+
+        {% endblock content %}
+        <section id="about-us" class="about-us">
+            <h1>About Us</h1>
+            <br/>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere, neque in eligendi aut sequi, ipsa eos cumque porro incidunt, praesentium earum adipisci necessitatibus? Mollitia ipsa est harum quibusdam, rem tenetur earum ab excepturi nam fugit commodi iure. Veniam in earum beatae. Cupiditate quasi eius impedit eos est fugit nisi aut?</p>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 News Flash. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

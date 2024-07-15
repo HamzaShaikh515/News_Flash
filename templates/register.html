@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | News Flash</title>
+    {% csrf_token %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0a192f; 
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 100px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, p {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-link a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: #0056b3;
+        }
+
+        .error-message {
+            background-color: rgb(255, 196, 0);
+            color: red;
+            font-weight: bold;
+            border: 1px solid red;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .success-message {
+            background-color: greenyellow;
+            color: green;
+            font-weight: bold;
+            border: 1px solid green;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>News Flash</h1>
+    <p>Welcome! Create your account.</p>
+    {% if error %}
+    <p class="error-message">Error !! : {{error}} </p>
+    <br/>
+    {% endif %}
+    {% if success %}
+    <p class="success-message">{{success}}</p>
+    <br/>
+    {% endif %}
+    <form action="" id="signup" method="POST" name = 'signup'>
+        {% csrf_token %}
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+        <input type="submit" >
+
+        <div class="login-link">
+            <p>Already a user? <a href="{% url "login" %}">Log in</a> OR <a href="{% url "admin_login" %}">Admin Login</a></p>
+        </div>
+    </form>
+</div>
+</body>
+</html>

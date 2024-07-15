@@ -1,0 +1,70 @@
+{% extends "base1.html" %}
+{% block title %}Read Articles{% endblock title %}
+{% block content %}
+    <div class='news-article'>
+        <h1>User Articles</h1>
+        <br>
+        <p style='line-height: 1.6;'> Uncover a treasure trove of articles written by our vibrant user community! Discover diverse perspectives, insightful opinions, and hidden gems you won't find elsewhere.<strong>  All submissions undergo a verification process by our admins to ensure quality and accuracy before official publication.</strong>  Get inspired by the voices of fellow users and delve into a world of creativity!</p>
+    </div>
+    <div class='news-article'>
+        <h1>Search Articles</h1>
+        <br>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <label for="country">Country : </label>
+            <select name="country" id="country">
+                {% for country in countries %}
+                    <option value="{{country.name}}">{{ country.name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <br>
+            <label for="category">Category: </label>
+            <select name="category" id="category">
+                {% for category in categories %}
+                    <option value="{{category.name}}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <br>
+            <label for="language">Language :</label>
+            <select name="language" id="language">
+                {% for language in languages %}
+                    <option value="{{ language.name }}">{{ language.name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <br>
+            <button type="submit" style="background-color: #263859;color: #fff;">Search Articles</button><br/><br/>
+        </form>
+        <hr>
+        <br>
+        {% if articles %}
+        <ol>
+            {% for article in articles %}
+                <li>
+                    <div class="news-article">
+                        <section style="margin: 20; display: block;">
+                        <p><h3>{{ article.title }}</h3></p>
+                        <img src="{{ article.image.url }}" style='height: 200px !important; width: auto !important;'>
+                        <p><h4>{% if article.author %} by {{ article.author }}{% endif %}</h4></p>
+                        <p>{% if article.published_date %} Published On : {{ article.published_date }}{% endif %}</p>
+                        <p>{% if article.summary %}{{ article.summary }}{% endif %}</p>
+                        <p>{% if article.content %}{{ article.content }}{% endif %}</p>
+                        </section>
+                        <form action="{% url "article_view" %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="article_id" value="{{ article.unique_id }}"/>
+                            <button type="submit" style='border-color: black;'> View Full Article</button>
+                        </form>
+                    </div>
+                    <hr>
+                </li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <p> No articles found with these filters. </p>
+        {% endif %}
+    </div>
+{% endblock content %}
+

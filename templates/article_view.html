@@ -1,0 +1,45 @@
+{% extends "base1.html" %}
+{% block title %} Article {{article.unique_id}} {% endblock title %}
+{% block content %}
+<div class='news-article'>
+    <h1 style="color: black;"> {{article.title}} </h1>
+</div>
+<div class="news-article">
+    <img src="{{ article.image.url }}" style='height: 500px;; width: auto;align-self: center !important;'>
+    <br>
+    <br>
+    <h2 style="color: black;"> {{article.summary}} </h2>
+</div>
+<div class="news-article">
+    <h2> <strong style="color: red;">{{article.author}}</strong> On  <strong style="color: red;">{{article.published_date|date:"Y-m-d"}}</strong> says : </h2>
+    <br>
+    <h2 style="color:black;max-width: 100%;word-wrap: break-word;overflow: auto;"><pre>{{article.content}}</pre></h2>
+</div>
+<div class="news-article">
+    <h1>Comments : </h1>
+    <br>
+    <hr>
+    <ol>
+        {% for comment in comments %}
+            <li>
+                <br>
+                <h3> {{comment.created_at}} <strong style="color: red;">{{comment.commenter_name}}</strong> : {{comment.content}}</h3>
+                <br>
+                <hr>
+            </li>
+        {% endfor %}
+    </ol>
+    <br>
+    <h3>Got somethig to say? Comment now!! </h3>
+    <br>
+    {% if user.is_authenticated %}
+    <form method='POST' action="">
+        {% csrf_token %}
+        <textarea name='comment' placeholder='Your comment here...' id='comment'></textarea><br>
+        <button type="submit" style='border-color: black; background-color: blueviolet;color: white;'> + Add Comment.</button>
+    </form>
+    {% else %}
+    <h3>Looks like you are not logged in. <a href="{% url "login" %}">Log in here</a> to make a comment !!</h3>
+    {% endif %}
+</div>
+{% endblock content %}

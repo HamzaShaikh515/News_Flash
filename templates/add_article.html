@@ -1,0 +1,57 @@
+{% extends "base1.html" %}
+{% block title %} {{ user.username }} adding articles {% endblock title %}
+{% block content %}
+    <div class='news-article'>
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h1>Add Article</h1>
+            {% if error %}
+                <p style="background-color: rgb(255, 196, 0);color: red;font-weight: bold;border: 1px solid red; padding: 10px; margin-bottom: 10px;">Error !! : {{error}} </p>
+            {% endif %}
+            {% if success %}
+                <p style="background-color:greenyellow; color: green; font-weight: bold; border: 1px solid green; padding: 10px; margin-bottom: 10px;">{{success}}</p>
+                <br/>
+            {% endif %}
+            <br>
+            <label for="country">Choose Country which the article is based on (or World)  : </label>
+            <select name="country" id="country">
+                {% for country in countries %}
+                    <option value="{{country.name}}">{{ country.name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="category">Choose category: </label>
+            <select name="category" id="category">
+                {% for category in categories %}
+                    <option value="{{category.name}}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="language">Select language of the article</label>
+            <select name="language" id="language">
+                {% for language in languages %}
+                    <option value="{{ language.name }}">{{ language.name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <br>
+            <h3><label for="title">Title :</label></h3>
+            <input type="text" style="border-color: black; width: 500px; height: 30px;" name="title" id="title" placeholder="Title of the article">
+            <br>
+            <br>
+            <h3><label for="summary">Summary : </label></h3>
+            <textarea name="summary" id="summary" cols="30" rows="10" placeholder="A short summary of the article" style="border-color:black ;"></textarea>
+            <br>
+            <br>
+            <h3><label for="article-content">Content : </label></h3>
+            <textarea name="article-content" id="article-content" cols="50" rows="10" placeholder="The actual content of the article " style="border-color: black;"></textarea>
+            <br>
+            <br>
+            <h3><label for="images">Image : </label></h3>
+            <input type="file" id="images" name="images" placeholder="Upload Images related to the article (JPG, PNG only)." accept="image/*" multiple>
+            <br>
+            <br>
+            <button type="submit" style="background-color: blue;color: #fff;border-color: black;">Add Article</button><br/><br/>
+        </form>
+    </div>
+{% endblock content %}

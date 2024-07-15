@@ -1,0 +1,41 @@
+{% extends "base1.html" %}
+{% block title %}Search for Articles{% endblock title %}
+{% block content %}
+    <div class="news-article">
+        <h1>Search For Online News Articles</h1>
+        <br>
+        <p style="line-height: 1.6;"> Enter your search terms to discover news articles from various online sources.Filter by category (e.g., technology, science, business) to narrow down your search and find the most relevant articles.Get the latest news delivered straight to you. Explore a wide range of topics and viewpoints. Access articles from a variety of online publications, ensuring a well-rounded understanding of current events.Once you find an interesting article, delve deeper into the topic with further reading suggestions.</p>
+        <p></p>
+    </div>
+    <div class="news-article">
+        <form action="" method="get">
+            <label for="q">Search query:</label>
+            <input type="text" id="q" name="q" value="{{ request.GET.q|default_if_none:'' }}">  
+            <label for="category">Category:</label>
+            
+            <label for="language">Language:</label>
+            <select id="language" name="language">
+                <option value="">All Languages</option>
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                </select>
+            <button type="submit">Search</button>
+        </form>
+    
+        {% if articles %}
+        <ol>
+            {% for article in articles %}
+                <li>
+                    <a href="{{ article.url }}">{{ article.title }}</a> - {{ article.source.name }}
+                    {% if article.author %} by {{ article.author }}{% endif %}
+                    {% if article.publishedAt %} (Published: {{ article.publishedAt }}){% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No news articles found.</p>
+        {% endif %}
+    </div>
+{% endblock content %}
+

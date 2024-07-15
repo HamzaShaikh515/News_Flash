@@ -1,0 +1,74 @@
+{% extends "base1.html" %}
+{% block title %} Profile {% endblock %}
+{% block content %}
+<div class="news-article">
+    <h1 style='font-size: xxx-large;'>My Profile</h1>
+    <br>
+    <hr>
+    <br>
+    <h3>Name : {{ user.first_name}} {{ user.last_name }} </h3>
+    <br>
+    <h3>Username : {{ user.username }} </h3>
+    <br>
+    <h3>Email : {{ user.email }}</h3>
+    <br>
+    <hr>
+    <br>
+    <h1>My Articles :</h1>
+    <br>
+    {% if articles %}
+        <ol>
+            {% for article in articles %}
+                <br>
+                <li>
+                    <div class="news-article">
+                        <section style="margin: 20; display: block;">
+                        <p><h3>{{ article.title }}</h3></p>
+                        {% if  article.image %}<p><img src="{{ article.image.url }}" style='height: 200px !important; width: auto !important;'></p>{% else %}<br/>{% endif %}
+                        <p><h4>{% if article.author %} by {{ article.author }}{% endif %} - {{ article.source.name }}</h4></p>
+                        <p>{% if article.published_date %} Published On : {{ article.published_date }}{% endif %}</p>
+                        <p>{% if article.summary %}{{ article.summary }}{% endif %}</p>
+                        <p>Likes :{{ article.likes }}</p>
+                        <p style="color: blue;"> Status :{{article.status}} </p>
+                        </section>
+                    </div>
+                    <hr>
+                </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <br/>
+        <h3>No articles published yet.</h3> 
+    {% endif %}
+    <br/>
+    <form method="POST" action="{% url "add_article" %}">
+        {% csrf_token %}
+        <button type="submit" style='border-color: black;'> + Add New Article</button>
+    </form>
+    <br>
+    <hr>
+    <br>
+    <h1>My comments :</h1>
+    {% if comments %}
+        <br>
+        <ol>
+            {% for comment in comments %}
+            <li>
+                <h3>Comment on <strong style="color: blue;">{{ comment.article.title }}</strong> : <strong style="color: red;">{{ comment.content }}</strong></h3>
+                <h3>Date : {{ comment.created_at }} </h3>
+                <br>
+                <hr>
+            </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <br/>
+        <h3>No comments made yet.</h3>
+    {% endif %}
+    <br/>
+    <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+        {% csrf_token %}
+        <button class="logout" type="submit" style="background-color: orangered; border-color: black; color: white;">logout</button>
+    </form>
+</div>
+{% endblock content %}
